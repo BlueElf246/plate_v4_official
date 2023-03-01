@@ -61,7 +61,6 @@ def extract_feature(dataset, params):
     for x in dataset:
         img=cv2.imread(x, cv2.IMREAD_COLOR)
         img_resized= cv2.resize(img,(params['size_of_window'][0],params['size_of_window'][1]))
-        print(img_resized.shape)
         feature=get_feature_of_image(img_resized, orient=params['orient'], pix_per_cell=params['pix_per_cell'], cell_per_block=params['cell_per_block'],
                                      feature_vector=True, special=False, color_space=color_space)
         if save == True:
@@ -284,7 +283,7 @@ def run(name,params, win_size, debug=False):
         img=name
     else:
         img = cv2.imread(name, cv2.IMREAD_COLOR)
-    img= cv2.resize(img, (1000,500))
+    # img= cv2.resize(img, (500,500))
     img2  = img.copy()
     start= time.time()
     bbox= find_car_multi_scale(img,params, win_size)
@@ -306,12 +305,15 @@ def run(name,params, win_size, debug=False):
         i1= cv2.resize(i1, (600,300))
         cv2.imshow('i',i)
         cv2.imshow('i1',i1)
-    return img2, bbox_heatmap
+    img_crop= []
+    for b in bbox_heatmap:
+        img_crop.append(img[b[1]:b[3],b[0]:b[2]])
+    return img2, bbox_heatmap, img_crop
 def test(params, win_size):
     os.chdir("/Users/datle/Desktop/Official_license_plate")
     l=glob.glob("./Training_vehicle_detection/result/run_load_data.jpeg")
     random.shuffle(l)
     for i in l:
-        result,bbox= run(i,params,win_size,debug=True)
+        result,bbox, img_crop= run(i,params,win_size,debug=True)
         cv2.imshow('r', result)
         cv2.waitKey(0)
