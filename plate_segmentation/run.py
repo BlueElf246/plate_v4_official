@@ -44,6 +44,7 @@ def character_extract(plate_img, show=False):
         # draw a red bordered rectangle over the character.
         rect_border = patches.Rectangle((x0, y0), x1 - x0, y1 - y0, edgecolor="red",
                                        linewidth=2, fill=False)
+        cv2.rectangle(gray,(x0,y0),(x1,y1), (255,0,0), thickness=1)
         ax1.add_patch(rect_border)
 
         # resize the characters to 20X20 and then append each character into the characters list
@@ -55,7 +56,7 @@ def character_extract(plate_img, show=False):
     print(result)
     if show == True:
         plt.show()
-    return result, license_plate
+    return result, gray
 
 
 # img= cv2.imread("/Users/datle/Desktop/plate_v4/result_plate/result_0.png")

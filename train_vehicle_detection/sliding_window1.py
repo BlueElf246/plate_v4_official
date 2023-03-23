@@ -22,11 +22,13 @@ def detect(img_crop, params, win_size, x=0):
     for y, img_c in enumerate(img_crop):
         cv2.imwrite(f"/Users/datle/Desktop/plate_v4/img_car/{x}_{y}.png", img_c)
         plate=detect_plate1(img_c, show=False)
-        result, license_plate= character_extract(plate[0], show=False)
+        if len(plate)==0:
+            continue
+        re, license_plate= character_extract(plate[0], show=False)
         cv2.imwrite("/Users/datle/Desktop/plate_v4/plate_segment_image/result.png", img=license_plate*255)
-    return result
+    return re
 
 
 img= cv2.imread("/Users/datle/Desktop/plate_v4/test_pic/Cars108.png")
-result=pipeline(model_use='NuSVC_100ex.p',img=img)
-print(result)
+r=pipeline(model_use='ver1.p',img=img)
+print(r)

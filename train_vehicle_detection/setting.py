@@ -15,7 +15,7 @@ s=[0.45, 0.611, 0.772, 0.933, 1.094, 1.255, 1.416, 1.577, 1.738, 1.899, 2.06, 2.
 inx= np.argmax(s)
 for x,y in enumerate(s):
     win_size[f'scale_{x}']=(0,1000,y)
-win_size['thresh']=16
+win_size['thresh']=20
 #10
 win_size['overlap_thresh']= 0.1
 win_size['length']= len(s)

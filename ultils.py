@@ -3,13 +3,14 @@ import os
 import random
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 from skimage.feature import hog
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC, NuSVC
 from sklearn.ensemble import AdaBoostClassifier
-import xgboost as xgb
+# import xgboost as xgb
 from sklearn.metrics import accuracy_score
 import pickle
 from scipy.ndimage import label
@@ -283,7 +284,7 @@ def run(name,params, win_size, debug=False):
         img=name
     else:
         img = cv2.imread(name, cv2.IMREAD_COLOR)
-    # img= cv2.resize(img, (500,500))
+    img= cv2.resize(img, (1000,500))
     img2  = img.copy()
     start= time.time()
     bbox= find_car_multi_scale(img,params, win_size)
@@ -305,6 +306,7 @@ def run(name,params, win_size, debug=False):
         i1= cv2.resize(i1, (600,300))
         cv2.imshow('i',i)
         cv2.imshow('i1',i1)
+        cv2.waitKey(0)
     img_crop= []
     for b in bbox_heatmap:
         img_crop.append(img[b[1]:b[3],b[0]:b[2]])
